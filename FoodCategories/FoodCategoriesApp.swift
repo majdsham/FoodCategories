@@ -6,16 +6,12 @@
 //
 
 import SwiftUI
-import CoreData
 
 @main
-struct FoodCategoriesApp: App {
-    let persistenceController = PersistenceController.shared
-
+struct TestOf2P2App: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }
 }

@@ -1,6 +1,6 @@
 //
 //  VideoPlayerManager.swift
-//  TestOf2P
+//  FoodCategories
 //
 //  Created by Majd Aldeyn Ez Alrejal on 31/08/2025.
 //
