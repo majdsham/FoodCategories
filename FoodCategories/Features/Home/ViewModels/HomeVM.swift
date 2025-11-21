@@ -14,16 +14,27 @@ extension URL: @retroactive Identifiable {
 }
 
 @MainActor
-final class HomeViewModel: AppViewModel {
+final class HomeVM: AppViewModel {
     private let service: HomeServicing
     private let menuPeresistenseService: MenuPSProtocol
     private var cancellables = Set<AnyCancellable>()
+    
+    // 1. The designated initializer, which requires dependencies to be passed in.
     init(
-        service: HomeServicing = HomeService(),
-        menuPeresistenseService: MenuPSProtocol = MenuPS(),
+        service: HomeServicing,
+        menuPeresistenseService: MenuPSProtocol
     ) {
         self.service = service
         self.menuPeresistenseService = menuPeresistenseService
+        super.init()
+    }
+    
+    // 2. The convenience initializer, which provides default dependencies.
+    convenience override init() {
+        self.init(
+            service: HomeService(),
+            menuPeresistenseService: MenuPS()
+        )
     }
     
     @Published var menu: MenuModel?
@@ -37,6 +48,19 @@ final class HomeViewModel: AppViewModel {
             return
         }
         fetchMenuFromServer()
+    }
+    
+    func menuOptionAccodingCategory(category: MenuCategory) -> [any MenuOptionProtocol] {
+        switch category {
+        case .drinks:
+            return menu?.drinks ?? []
+        case .pasta:
+            return menu?.pasta ?? []
+        case .hamburgers:
+            return menu?.hamburgers ?? []
+        case .sandwiches:
+            return menu?.sandwiches ?? []
+        }
     }
     
     private func loadMenurFromPersistence() async {
@@ -72,6 +96,16 @@ final class HomeViewModel: AppViewModel {
                 self.saveMenu(menu)
             }
             .store(in: &cancellables)
+    }
+    
+    private func fetchMenuFromServerAync() async {
+        do {
+            if let result = try await service.fetchMenuAsync() {
+                self.menu = result.record?.menu
+            }
+        } catch let error {
+            self.state = .error(error.localizedDescription)
+        }
     }
     
     private func saveMenu(_ menu: MenuModel) {

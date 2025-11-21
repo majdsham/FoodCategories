@@ -8,10 +8,10 @@
 import SwiftUI
 
 @main
-struct TestOf2P2App: App {
+struct FoodCategoriesApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            MainTabsView()
         }
     }
 }

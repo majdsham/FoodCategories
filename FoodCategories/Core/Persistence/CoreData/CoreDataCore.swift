@@ -17,7 +17,7 @@ final class CoreDataCore {
     }
     
     private init() {
-        persistentContainer = NSPersistentContainer(name: "FoodCategories2")
+        persistentContainer = NSPersistentContainer(name: "FoodCategories")
         persistentContainer.loadPersistentStores { _, error in
             if let error {
                 fatalError("Unresolved error \(error)")

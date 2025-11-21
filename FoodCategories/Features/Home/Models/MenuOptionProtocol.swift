@@ -5,11 +5,11 @@
 //  Created by Majd Aldeyn Ez Alrejal on 05/09/2025.
 //
 
-protocol AppModel: Codable {
+public protocol AppModel: Codable {
     
 }
 
-protocol MenuOptionProtocol: AppModel {
+public protocol MenuOptionProtocol: AppModel, Identifiable, Hashable {
     var id: Int { get }
     var name: String? { get }
     var price: Double? { get }
